@@ -87,7 +87,7 @@ python3 scripts/generate_image.py "你的提示词" --model gemini-3.1-flash-ima
 2. **选择模型**：根据用途选择合适的模型（默认 2K-16x9）
 3. **优化提示词**：将用户描述扩展为详细的图片提示词
 4. **执行脚本**：调用 `scripts/generate_image.py` 生成图片
-5. **展示结果**：读取生成的图片展示给用户
+5. **发送图片**：使用 `message` 工具将生成的图片发送给用户（action=send，带上 media 参数）
 
 ## 提示词技巧
 
