@@ -4,8 +4,17 @@ AI 图像生成 Skill，基于 Gemini Flash Image 模型，支持文生图、图
 
 ## 安装
 
+### ClawHub（推荐）
+
 ```bash
-clawhub install image-gen
+clawhub install ai-image-gen
+```
+
+### Git 直接安装
+
+```bash
+cd /path/to/your/workspace/skills
+git clone git@github.com:qiujiahong/image-gen.git ai-image-gen
 ```
 
 ## 环境变量配置
