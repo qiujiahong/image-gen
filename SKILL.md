@@ -87,7 +87,34 @@ python3 scripts/generate_image.py "你的提示词" --model gemini-3.1-flash-ima
 2. **选择模型**：根据用途选择合适的模型（默认 2K-16x9）
 3. **优化提示词**：将用户描述扩展为详细的图片提示词
 4. **执行脚本**：调用 `scripts/generate_image.py` 生成图片
-5. **发送图片**：使用 `message` 工具将生成的图片发送给用户（action=send，带上 media 参数）
+5. **上传图片**：调用飞书 API 上传图片，获取 `image_key`
+6. **发送图片**：使用 `message` 工具发送 `{"image_key": "xxx"}`
+
+### 飞书图片上传示例
+
+```python
+import requests
+
+# 获取 token
+resp = requests.post(
+    "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal",
+    json={"app_id": "YOUR_APP_ID", "app_secret": "YOUR_APP_SECRET"}
+)
+token = resp.json()["tenant_access_token"]
+
+# 上传图片
+with open("image.png", "rb") as f:
+    resp = requests.post(
+        "https://open.feishu.cn/open-apis/im/v1/images",
+        headers={"Authorization": f"Bearer {token}"},
+        files={"image": ("image.png", f, "image/png")},
+        data={"image_type": "message"}
+    )
+image_key = resp.json()["data"]["image_key"]
+
+# 发送图片
+# 使用 message 工具: {"image_key": "<image_key>"}
+```
 
 ## 提示词技巧
 
