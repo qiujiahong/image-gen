@@ -1,6 +1,7 @@
 # image-gen
 
-AI 图像生成 Skill，基于 Gemini Flash Image 模型，支持文生图、图+文生图、多比例、多分辨率。
+AI 图像生成 Skill，支持文生图、图生图/编辑场景扩展，以及多种 Gemini / Gemini 兼容图像接口。
+当前默认按 `IMAGE_GEN_GEMINI_*` 环境变量读取配置，并兼容 Gemini 原生返回与代理中转返回。
 
 ## 安装
 
@@ -52,13 +53,36 @@ IMAGE_GEN_GEMINI_IMAGE_MODEL=nano-banana-2
 
 注册后在控制台获取 API Key 和 Base URL。
 
-## 支持的模型
+## 模型与返回兼容
 
-- 基础（标准分辨率）：1:1、3:2、2:3、3:4、4:3、4:5、5:4、9:16、16:9、21:9
-- 2K 分辨率：同上所有比例
-- 4K 分辨率：同上所有比例（不含 21:9）
+当前默认图像模型：`nano-banana-2`
 
-默认模型：`gemini-3.1-flash-image-2k-16x9`
+脚本支持两类接口返回：
+
+1. **Gemini 原生格式**
+   - 从 `candidates[].content.parts[].inlineData` 提取图片
+2. **代理/中转格式**
+   - 从 `data[0].url` 读取图片 URL 并自动下载到本地
+   - 若返回 `b64_json`，也会尝试自动解码保存
+
+说明：
+- `IMAGE_GEN_GEMINI_MODEL` 可用于设置通用 Gemini 模型
+- `IMAGE_GEN_GEMINI_IMAGE_MODEL` 用于设置实际出图模型
+- 命令行传入 `--model` 时，优先使用命令行参数
+
+## 示例
+
+```bash
+export IMAGE_GEN_GEMINI_API_KEY="your-api-key"
+export IMAGE_GEN_GEMINI_BASE_URL="https://api.xheai.cc/v1beta"
+export IMAGE_GEN_GEMINI_IMAGE_MODEL="nano-banana-2"
+
+python3 scripts/generate_image.py \
+  "一只坐在窗台上的橘猫，清晨阳光，写实摄影风格" \
+  --output ./cat-test
+```
+
+如果接口返回的是图片 URL，脚本会自动下载并保存到本地。
 
 ## License
 
