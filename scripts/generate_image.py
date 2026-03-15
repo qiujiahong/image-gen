@@ -10,17 +10,18 @@ import base64
 import httpx
 from pathlib import Path
 
-API_KEY = os.environ.get("IMAGE_GEN_API_KEY", "")
-BASE_URL = os.environ.get("IMAGE_GEN_BASE_URL", "https://code.newcli.com/gemini")
+API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("IMAGE_GEN_API_KEY", "")
+BASE_URL = os.environ.get("GEMINI_BASE_URL") or os.environ.get("IMAGE_GEN_BASE_URL", "https://api.xheai.cc/v1beta")
+DEFAULT_MODEL = os.environ.get("GEMINI_IMAGE_MODEL") or os.environ.get("GEMINI_MODEL") or "nano-banana-2"
 
-def generate_image(prompt: str, model: str = "gemini-3.1-flash-image-2k-16x9", output_path: str = None) -> str:
+def generate_image(prompt: str, model: str = DEFAULT_MODEL, output_path: str = None) -> str:
     """Generate image from text prompt"""
     
     if not API_KEY:
-        print("ERROR: IMAGE_GEN_API_KEY not set", file=sys.stderr)
+        print("ERROR: GEMINI_API_KEY not set", file=sys.stderr)
         sys.exit(1)
     
-    url = f"{BASE_URL}/v1beta/models/{model}:generateContent"
+    url = f"{BASE_URL.rstrip('/')}/models/{model}:generateContent"
     
     headers = {
         "Content-Type": "application/json",
@@ -91,7 +92,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Generate image with Gemini Flash Image")
     parser.add_argument("prompt", help="Text prompt for image generation")
-    parser.add_argument("--model", "-m", default="gemini-3.1-flash-image-2k-16x9", help="Model to use")
+    parser.add_argument("--model", "-m", default=DEFAULT_MODEL, help="Model to use")
     parser.add_argument("--output", "-o", help="Output file path")
     args = parser.parse_args()
     
