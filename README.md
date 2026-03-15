@@ -36,13 +36,13 @@ git clone git@github.com:qiujiahong/image-gen.git ai-image-gen
 使用前需配置以下环境变量：
 
 ```bash
-GEMINI_API_KEY=sk-zxWwm8j4iabi2IJmyccGTXR1zIppV6tcilXs35iCiIafPeiw
-GEMINI_BASE_URL=https://api.xheai.cc/v1beta
-GEMINI_MODEL=gemini-3-flash-preview
-GEMINI_IMAGE_MODEL=nano-banana-2
+IMAGE_GEN_GEMINI_API_KEY=sk-zxWwm8j4iabi2IJmyccGTXR1zIppV6tcilXs35iCiIafPeiw
+IMAGE_GEN_GEMINI_BASE_URL=https://api.xheai.cc/v1beta
+IMAGE_GEN_GEMINI_MODEL=gemini-3-flash-preview
+IMAGE_GEN_GEMINI_IMAGE_MODEL=nano-banana-2
 ```
 
-脚本兼容旧变量 `IMAGE_GEN_API_KEY` / `IMAGE_GEN_BASE_URL`，但现在优先读取 `GEMINI_*`。
+脚本兼容旧变量 `GEMINI_*` 和 `IMAGE_GEN_API_KEY` / `IMAGE_GEN_BASE_URL`，但现在优先读取 `IMAGE_GEN_GEMINI_*`。
 
 ## 获取 API Key
 

@@ -10,15 +10,15 @@ import base64
 import httpx
 from pathlib import Path
 
-API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("IMAGE_GEN_API_KEY", "")
-BASE_URL = os.environ.get("GEMINI_BASE_URL") or os.environ.get("IMAGE_GEN_BASE_URL", "https://api.xheai.cc/v1beta")
-DEFAULT_MODEL = os.environ.get("GEMINI_IMAGE_MODEL") or os.environ.get("GEMINI_MODEL") or "nano-banana-2"
+API_KEY = os.environ.get("IMAGE_GEN_GEMINI_API_KEY") or os.environ.get("GEMINI_API_KEY") or os.environ.get("IMAGE_GEN_API_KEY", "")
+BASE_URL = os.environ.get("IMAGE_GEN_GEMINI_BASE_URL") or os.environ.get("GEMINI_BASE_URL") or os.environ.get("IMAGE_GEN_BASE_URL", "https://api.xheai.cc/v1beta")
+DEFAULT_MODEL = os.environ.get("IMAGE_GEN_GEMINI_IMAGE_MODEL") or os.environ.get("IMAGE_GEN_GEMINI_MODEL") or os.environ.get("GEMINI_IMAGE_MODEL") or os.environ.get("GEMINI_MODEL") or "nano-banana-2"
 
 def generate_image(prompt: str, model: str = DEFAULT_MODEL, output_path: str = None) -> str:
     """Generate image from text prompt"""
     
     if not API_KEY:
-        print("ERROR: GEMINI_API_KEY not set", file=sys.stderr)
+        print("ERROR: IMAGE_GEN_GEMINI_API_KEY not set", file=sys.stderr)
         sys.exit(1)
     
     url = f"{BASE_URL.rstrip('/')}/models/{model}:generateContent"
